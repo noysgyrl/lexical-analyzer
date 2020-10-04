@@ -3,8 +3,12 @@
 #include <sstream>
 #include <cstdlib>
 #include "analyze.h"
+#include "parse.h"
+#include <vector>
 
-std::string replace(std::string input){
+std::vector<std::string> lexemes;
+
+ std::string replace(std::string input){
 
     size_t where = input.find(";"); //separate semicolons
     while (where != std::string::npos){
@@ -29,9 +33,8 @@ std::string replace(std::string input){
     return input;
 }
 
-std::string analyze(std::string str){
+std::vector<std::string> analyze(std::string str) {
     std::string list;
-
     std::stringstream in(str);
 
     do { //assigns each lexeme with a type
@@ -39,23 +42,23 @@ std::string analyze(std::string str){
         std::string lexeme;
         in >> lexeme;
 
-        if (lexeme == "+" || lexeme == "-" || lexeme == "*" || lexeme == "/" || lexeme == "%"){
+        if (lexeme == "+" || lexeme == "-" || lexeme == "*" || lexeme == "/" || lexeme == "%") {
             type = "operator";
         } else if (lexeme == "=") {
             type = "assignment";
         } else if (lexeme == "float") {
             type = "keyword";
-        } else if (lexeme == "("){
+        } else if (lexeme == "(") {
             type = "left parentheses";
-        } else if (lexeme == ")"){
+        } else if (lexeme == ")") {
             type = "right parentheses";
-        } else if (lexeme == "{"){
+        } else if (lexeme == "{") {
             type = "left brace";
-        } else if (lexeme == "}"){
+        } else if (lexeme == "}") {
             type = "right brace";
-        } else if (lexeme == ","){
+        } else if (lexeme == ",") {
             type = "comma";
-        } else if (lexeme == ";"){
+        } else if (lexeme == ";") {
             type = "semicolon";
         }
         //if it is not one of the previous options we assign it identifier
@@ -63,10 +66,11 @@ std::string analyze(std::string str){
             type = "identifier";
         }
 
-        list = list + (lexeme + " <" + type + ">\n"); //add to list
+        std::cout << lexeme + " <" + type + ">\n";
 
+        std::string vectorObject = lexeme + " <" + type + ">";
+        lexemes.push_back(vectorObject);//add to vector
     } while (in);
 
-    return list;
+    return lexemes;
 }
-

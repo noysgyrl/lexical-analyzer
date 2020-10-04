@@ -8,6 +8,7 @@
 #include <iostream>
 #include <string>
 #include "analyze.h"
+#include "parse.h"
 
 std::string input;
 
@@ -21,12 +22,9 @@ int main() {
     }
     else {
        std::string pass = replace(input); //makes string readable for analyze()
-       std::cout << analyze(pass); //send string to analyze (returns list of lexemes with types)
+       parse(analyze(pass)); //send string to analyze, send to parser
     }
-    //send to parser (checks syntax)
-    //parser uses recursive descent parsing to implement syntax analysis
-        //if test program is valid, std::cout < “The sample program is correct”
-        //else show an error (and possibly how to fix it?)
 }
 
 // test program 1: float test() { float m, n, p; m = n + m - p; p = m - n; } (valid)
+// test program 2: float ques() { float x, y, z; x + y - z; } (invalid)
